@@ -14,6 +14,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.2.0'
 
+# http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
+gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+
 
 group :development do
   gem 'web-console', '~> 2.0'
@@ -21,6 +28,7 @@ group :development do
 end
 group :development, :test do
   gem 'sqlite3'
+  gem 'figaro'
 
   gem 'byebug'
   gem 'pry-rails'           # Causes rails console to open pry
