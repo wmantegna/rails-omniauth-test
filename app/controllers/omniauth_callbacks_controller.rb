@@ -1,4 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  
   def self.provides_callback_for(provider)
     class_eval %Q{
       def #{provider}
@@ -15,11 +16,12 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     }
   end
 
-  [:twitter, :facebook, :linked_in].each do |provider|
+  [:facebook, :twitter, :linked_in].each do |provider|
     provides_callback_for provider
   end
 
   def after_sign_in_path_for(resource)
+    raise
     if resource.email_verified?
       super resource
     else

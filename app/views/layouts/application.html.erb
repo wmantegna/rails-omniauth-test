@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HelpersTest</title>
+  <title>RailsFacebookTest2</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    .btn { color: white !important; }
+  </style>
 </head>
 <body>
+  
+  <%= render 'layouts/navigation' %>
+  <div style="padding: 0 1em;">
+    <%= yield %>
+  </div>
 
-<%= yield %>
+  <h2>Tutorials that fueled this project</h2>
+  <ul>
+    <li><%= link_to 'Rails 4 OmniAuth using Devise with Twitter, Facebook and Linkedin', 'http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/' %></li>
+  </ul>
 
 </body>
 </html>
