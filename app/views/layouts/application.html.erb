@@ -15,6 +15,20 @@
   
   <%= render 'layouts/navigation' %>
   <div style="padding: 0 1em;">
+    
+    <% if notice %>
+      <div class="alert alert-info">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <%= notice %>
+      </div>
+    <% end %>
+    <% if alert %>
+      <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <%= alert %>
+      </div>
+    <% end %>
+
     <%= yield %>
   </div>
 
