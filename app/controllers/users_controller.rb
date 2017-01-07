@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_current_user, only: [:edit_password, :update_password]
 
   # GET /users/:id.:format
   def show
@@ -25,6 +27,19 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def edit_password
+  end
+  def update_password
+    if @user.update(user_params)
+      # Sign in the user by passing validation in case their password changed
+      bypass_sign_in(@user)
+      redirect_to root_path
+    else
+      render "edit"
+    end
+  end
+
 
   # GET/PATCH /users/:id/finish_signup
   def finish_signup
@@ -53,6 +68,9 @@ class UsersController < ApplicationController
   private
     def set_user
       @user = User.find(params[:id])
+    end
+    def set_current_user
+      @user = User.find(current_user.id)
     end
 
     def user_params
