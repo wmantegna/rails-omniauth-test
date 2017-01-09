@@ -15,7 +15,7 @@ gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.2.0'
 
 # http://sourcey.com/rails-4-omniauth-using-devise-with-twitter-facebook-and-linkedin/
-gem 'devise'
+gem 'devise', '~> 4.1.1'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
