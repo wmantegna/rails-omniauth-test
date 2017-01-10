@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  # before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_current_user
+  before_action :set_user
 
   def edit_password
+    redirect_to_correct_user(edit_password_users_path, params[:id])
   end
   def update_password
+    if redirect_to_correct_user(edit_password_users_path, params[:id])
+      return
+    end
+
     if @user.update(user_params)
       # Sign in the user by passing validation in case their password changed
       sign_in(@user, :bypass => true)
@@ -16,8 +20,13 @@ class UsersController < ApplicationController
   end
 
   def edit_email
+    redirect_to_correct_user(edit_email_users_path, params[:id])
   end
   def update_email
+    if redirect_to_correct_user(edit_email_users_path, params[:id])
+      return
+    end
+
     if @user.update(user_params)
       send_confirmation_email(@user)
       redirect_to root_path, notice: "Email change requested. Check #{@user.unconfirmed_email} for confirmation email."
@@ -27,6 +36,10 @@ class UsersController < ApplicationController
   end
 
   def cancel_email_change
+    if redirect_to_correct_user(root_path, params[:id])
+      return
+    end
+    
     @user.unconfirmed_email = nil
     @user.confirmation_token = nil
     @user.save
@@ -34,8 +47,11 @@ class UsersController < ApplicationController
     redirect_to root_path, alert: "Request to change email address cancelled."
   end
   def send_confirmation
+    if redirect_to_correct_user(root_path, params[:id])
+      return
+    end
+    
     send_confirmation_email(@user)
-
     redirect_to root_path, notice: "Confirmation email successfully sent to #{@user.unconfirmed_email}"
   end
 
@@ -69,11 +85,24 @@ class UsersController < ApplicationController
   # end
   
   private
-    # def set_user
-    #   @user = User.find(params[:id])
-    # end
-    def set_current_user
-      @user = User.find(current_user.id)
+    def set_user
+      @user = User.find(params[:id])
+    end
+   
+    # Stops users from being impersonated by making sure only the current user can edit their own record
+    def redirect_to_correct_user(path, requested_id)
+      # Potential failure here if the requested_id appears multiple times.
+      
+      # As long as all of the routes to this controller only ever contain...
+      # ...one id (as it currently does), this function will work.
+
+      unless current_user.id == requested_id.to_i
+        newPath = path.sub(requested_id.to_s, current_user.id.to_s)
+        redirect_to newPath
+        return true
+      end
+      
+      return false
     end
 
     def send_confirmation_email(user)
