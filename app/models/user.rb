@@ -63,6 +63,10 @@ class User < ActiveRecord::Base
     return user
   end
 
+  def has_facebook_identity?
+    return self.identities.where(provider: :facebook).exists?
+  end
+
   def email_verified?
     return self.email && 
             (self.email !~ TEMP_EMAIL_REGEX) && 
