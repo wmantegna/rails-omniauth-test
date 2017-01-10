@@ -12,6 +12,11 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
+
+  # Non-model attribute (not saved directly to DB)
+  attr_accessor :unconfirmed_email_confirmation
+
+
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist

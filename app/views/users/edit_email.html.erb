@@ -1,0 +1,13 @@
+<%= form_for(@user, :url => { :action => :update_email } ) do |f| %>
+  <div class="field">
+    <%= f.label :unconfirmed_email, "New Email" %><br />
+    <%= f.text_field :unconfirmed_email, :autocomplete => "off"  %>
+  </div>
+  <div class="field">
+    <%= f.label :unconfirmed_email_confirmation %><br />
+    <%= f.text_field :unconfirmed_email_confirmation %>
+  </div>
+  <div class="action_container">
+    <%= f.submit %>
+  </div>
+<% end %>

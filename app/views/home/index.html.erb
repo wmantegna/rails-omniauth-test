@@ -4,8 +4,9 @@
   <h3>User Actions</h3>
   <% if user_signed_in? %>
 
+    <%= link_to 'Edit Email', edit_email_users_path(current_user), class: 'btn btn-info' %>
+    <%= link_to 'Edit Password', edit_password_users_path(current_user), class: 'btn btn-info' %>
 
-    <%= link_to 'Edit Password', edit_password_user_path(current_user), class: 'btn btn-info' %>
     <% unless current_user.has_facebook_identity? %>
       <%= link_to 'Add Facebook', omniauth_authorize_path("user", "facebook"), class: 'btn btn-info' %>
     <% end %>

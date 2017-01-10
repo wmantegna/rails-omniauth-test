@@ -1,5 +1,10 @@
-<p>Welcome <%= @email %>!</p>
+<% if @user.pending_reconfirmation? %>
+  <p>You are changing your email from <b><%= @user.email %></b> to <b><%= @user.unconfirmed_email %></b>.</p>
+  <p>If this was a mistake, please ignore this email.</p>
+  
+<% else %>
+  <p>Welcome <%= @email %>!</p>
+<% end %>
 
 <p>You can confirm your account email through the link below:</p>
-
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
