@@ -19,12 +19,7 @@ class UsersController < ApplicationController
   end
   def update_email
     if @user.update(user_params)
-      @user.confirmation_token = Devise.friendly_token
-      @user.save
-      Devise::Mailer.confirmation_instructions(@user, @user.confirmation_token).deliver
-      # raise
-      # Sign in the user by passing validation in case their password changed
-      # sign_in(@user, :bypass => true)
+      send_reconfirmation_email(@user)
       redirect_to root_path
     else
       raise
@@ -32,6 +27,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def cancel_email_change
+    @user.unconfirmed_email = nil
+    @user.confirmation_token = nil
+    @user.save
+
+    redirect_to root_path, alert: "Request to change email address cancelled."
+  end
+  def resend_reconfirmation_email
+    send_reconfirmation_email(@user)
+
+    redirect_to root_path, notice: "reconfirmation email successfully sent to #{@user.unconfirmed_email}"
+  end
 
   # PATCH/PUT /users/:id.:format
   # def update
@@ -68,6 +75,12 @@ class UsersController < ApplicationController
     # end
     def set_current_user
       @user = User.find(current_user.id)
+    end
+
+    def send_reconfirmation_email(user)
+      user.confirmation_token = Devise.friendly_token
+      user.save
+      Devise::Mailer.confirmation_instructions(user, user.confirmation_token).deliver   
     end
 
     def user_params

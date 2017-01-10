@@ -5,6 +5,6 @@ class HomeController < ActionController::Base
   layout "application"
 
   def index
-    
+    @user = current_user
   end
 end

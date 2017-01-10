@@ -7,6 +7,13 @@
     <%= f.label :unconfirmed_email_confirmation %><br />
     <%= f.text_field :unconfirmed_email_confirmation %>
   </div>
+  
+  <br>
+  <div class="alert alert-warning">
+    <p>Note: A confirmation email will be sent to the new address, and must be confirmed to before the change takes effect.</p>
+    <p>In the meantime, please continue to log in with your current email address of <%= @user.email %>.</p>
+  </div>
+
   <div class="action_container">
     <%= f.submit %>
   </div>
