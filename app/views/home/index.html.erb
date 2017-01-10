@@ -19,12 +19,12 @@
         <p><b>Note:</b> You requested to change your email from <b><%= @user.email %></b> to <b><%= @user.unconfirmed_email %></b>. This change is 'pending' until you confirm it by clicking the link in the confirmation email we sent to your new email address.</p>
         <p>
           <b>If you did not receive the confirmation email</b>, please 
-          <%= link_to 'click here', resend_reconfirmation_email_users_path, :method => :POST, class: 'btn btn-primary btn-xs' %> 
+          <%= link_to 'click here', send_user_confirmation_path(@user), :method => :POST, class: 'btn btn-primary btn-xs' %> 
           to resend the confirmation instructions to your new email address.
           </p>
         <p>
           <b>If this was a mistake</b>, please 
-          <%= link_to 'click here', cancel_email_change_users_path, :method => :POST, class: 'btn btn-danger btn-xs' %> 
+          <%= link_to 'click here', cancel_user_email_change_path(@user), :method => :POST, class: 'btn btn-danger btn-xs' %> 
           to cancel this change.
         </p>
       </div>

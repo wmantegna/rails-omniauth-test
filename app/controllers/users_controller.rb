@@ -9,9 +9,9 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       # Sign in the user by passing validation in case their password changed
       sign_in(@user, :bypass => true)
-      redirect_to root_path
+      redirect_to root_path, notice: 'Successfully updated password.'
     else
-      render :edit_password
+      render :edit_password, alert: 'Failed to update password.'
     end
   end
 
@@ -19,11 +19,10 @@ class UsersController < ApplicationController
   end
   def update_email
     if @user.update(user_params)
-      send_reconfirmation_email(@user)
-      redirect_to root_path
+      send_confirmation_email(@user)
+      redirect_to root_path, notice: "Email change requested. Check #{@user.unconfirmed_email} for confirmation email."
     else
-      raise
-      render :edit_email
+      render :edit_email, alert: 'Error updating user record'
     end
   end
 
@@ -34,10 +33,10 @@ class UsersController < ApplicationController
 
     redirect_to root_path, alert: "Request to change email address cancelled."
   end
-  def resend_reconfirmation_email
-    send_reconfirmation_email(@user)
+  def send_confirmation
+    send_confirmation_email(@user)
 
-    redirect_to root_path, notice: "reconfirmation email successfully sent to #{@user.unconfirmed_email}"
+    redirect_to root_path, notice: "Confirmation email successfully sent to #{@user.unconfirmed_email}"
   end
 
   # PATCH/PUT /users/:id.:format
@@ -77,7 +76,7 @@ class UsersController < ApplicationController
       @user = User.find(current_user.id)
     end
 
-    def send_reconfirmation_email(user)
+    def send_confirmation_email(user)
       user.confirmation_token = Devise.friendly_token
       user.save
       Devise::Mailer.confirmation_instructions(user, user.confirmation_token).deliver   
