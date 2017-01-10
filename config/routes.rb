@@ -10,14 +10,7 @@ Rails.application.routes.draw do
       patch :update_email
       post '/cancel_email_change_users', to: 'users#cancel_email_change', as: :cancel_email_change
       post '/resend_reconfirmation_email', to: 'users#resend_reconfirmation_email', as: :resend_reconfirmation_email
-      # post :cancel_email_change_users
     end
-
-    
-    # post :resend_reconfirmation_email
   end
-
-  # patch 'users/:id/cancel_email_change', to: 'users#cancel_email_change', as: :cancel_email_change_users
-
   root 'home#index'
 end
