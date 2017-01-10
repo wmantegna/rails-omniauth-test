@@ -4,9 +4,8 @@ Rails.application.routes.draw do
 
   resource :user, only: [:none] do
     collection do
-      # get 'success', to: 'home#success', as: 'edit_password'
-      get 'edit_password'
-      patch 'update_password'
+      get :edit_password
+      patch :update_password
     end
   end
 
