@@ -5,11 +5,6 @@
     <div class="pull-right" style="padding: .3em 1em;">
       <% if user_signed_in? %>
         Signed in as <strong><%= current_user.email %></strong>!
-        <% link_to "Change your password", edit_user_registration_path, class: 'btn btn-info' %>
-        <% # link_to 'Update Password', edit_user_path(current_user), class: 'btn btn-info' %>
-
-        <% #link_to 'Add Facebook', omniauth_authorize_path(resource_name, provider) %>
-
         <%= link_to "Log out", destroy_user_session_path, method: :delete, class: 'btn btn-danger' %>
       <% else %>
         
