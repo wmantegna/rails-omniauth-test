@@ -35,6 +35,9 @@ class UsersController < ApplicationController
     if @errorMessage.blank? && User.is_email?(user_params[:unconfirmed_email]) == false
       @errorMessage = 'New email must be a proper email address.'
     end
+    if @errorMessage.blank? && @user.email == user_params[:unconfirmed_email]
+      @errorMessage = "You can only change to an email address different from the #{@user.email}"
+    end
 
     # update record
     if @errorMessage.blank?
