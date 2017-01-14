@@ -18,7 +18,16 @@ class User < ActiveRecord::Base
   attr_accessor :unconfirmed_email_confirmation
   #############################
 
+  # Queries
+  #############################
+  def self.search_by_email(email)
+    Event.where(email: email)
+  end
+  #############################
 
+
+  # Omniauth
+  #############################
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist
@@ -79,4 +88,5 @@ class User < ActiveRecord::Base
             (self.email !~ TEMP_EMAIL_REGEX) && 
             (self.email !~ Devise.email_regexp) == false
   end
+  #############################
 end
