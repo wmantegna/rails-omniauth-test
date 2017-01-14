@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
   def self.is_email?(email)
     return (email =~ Devise.email_regexp).nil? == false
   end
+  def self.is_email_in_use?(email)
+    return User.where(email: email).any?
+  end
   #############################
 
   # Queries

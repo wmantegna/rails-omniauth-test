@@ -29,14 +29,18 @@ class UsersController < ApplicationController
 
     # Validate parameters from form
     @errorMessage = ''
-    if user_params[:unconfirmed_email] != user_params[:unconfirmed_email_confirmation]
+    @unconfirmedEmail = user_params[:unconfirmed_email]
+    if @unconfirmedEmail != user_params[:unconfirmed_email_confirmation]
       @errorMessage = 'New email & new email confirmation must be the same.'
     end
-    if @errorMessage.blank? && User.is_email?(user_params[:unconfirmed_email]) == false
+    if @errorMessage.blank? && User.is_email?(@unconfirmedEmail) == false
       @errorMessage = 'New email must be a proper email address.'
     end
-    if @errorMessage.blank? && @user.email == user_params[:unconfirmed_email]
+    if @errorMessage.blank? && @user.email == @unconfirmedEmail
       @errorMessage = "You can only change to an email address different from the #{@user.email}"
+    end
+    if @errorMessage.blank? && User.is_email_in_use? (@unconfirmedEmail)
+      @errorMessage = "#{@unconfirmedEmail} is already in use."
     end
 
     # update record
