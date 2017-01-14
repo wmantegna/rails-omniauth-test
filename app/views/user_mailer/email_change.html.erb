@@ -1,0 +1,9 @@
+<div style="padding: 2em;">
+
+  Greetings!
+
+  <p>You requested to change your email from <b><%= @user.email %></b> to <b><%= @user.unconfirmed_email %></b>.</p>
+  <p>We are emailing you to inform you of this change. If this was a mistake, please visit your <%= link_to 'account page', root_path %> and cancel this request.</p>
+  <p>Have a great day!</p>
+
+</div>

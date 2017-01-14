@@ -108,7 +108,17 @@ class UsersController < ApplicationController
     def send_confirmation_email(user)
       user.confirmation_token = Devise.friendly_token
       user.save
-      Devise::Mailer.confirmation_instructions(user, user.confirmation_token).deliver   
+
+      # send to unconfirmed email if this is a reconfirmation
+      opts = {}
+      unless user.unconfirmed_email.nil?
+        opts = {to: user.unconfirmed_email}
+
+        # contact original email address informing them of the change
+        UserMailer.email_change(user.id).deliver_now
+      end
+
+      Devise::Mailer.confirmation_instructions(user, user.confirmation_token, opts).deliver_now
     end
 
     def user_params
