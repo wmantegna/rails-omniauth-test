@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
 
   # Non-model attribute (not saved directly to DB)
   attr_accessor :unconfirmed_email_confirmation
+
+  def self.is_email?(email)
+    return (email =~ Devise.email_regexp).nil? == false
+  end
   #############################
 
   # Queries
