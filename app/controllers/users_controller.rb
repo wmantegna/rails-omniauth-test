@@ -27,11 +27,21 @@ class UsersController < ApplicationController
       return
     end
 
-    if @user.update(user_params)
-      send_confirmation_email(@user)
-      redirect_to root_path, notice: "Email change requested. Check #{@user.unconfirmed_email} for confirmation email."
+    @errorMessage = ''
+    if user_params[:unconfirmed_email] == user_params[:unconfirmed_email_confirmation]
+      if @user.update(user_params)
+        send_confirmation_email(@user)
+        redirect_to root_path, notice: "Email change requested. Check #{@user.unconfirmed_email} for confirmation email."
+      else
+        @errorMessage = 'Error updating user record'
+      end
     else
-      render :edit_email, alert: 'Error updating user record'
+      @errorMessage = 'new email & new email confirmation must be the same'
+    end
+
+    unless @errorMessage.blank?
+      flash[:alert] = @errorMessage
+      render :edit_email
     end
   end
 
