@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     if @errorMessage.blank? && @user.email == @unconfirmedEmail
       @errorMessage = "You can only change to an email address different from the #{@user.email}"
     end
-    if @errorMessage.blank? && User.is_email_in_use? (@unconfirmedEmail)
+    if @errorMessage.blank? && User.is_email_in_use?(@unconfirmedEmail)
       @errorMessage = "#{@unconfirmedEmail} is already in use."
     end
 
