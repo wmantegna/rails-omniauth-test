@@ -83,6 +83,14 @@ class User < ActiveRecord::Base
       identity.save!
     end
 
+    # Add name from auth to social identity
+    if auth.info? && auth.info.name?
+      if auth.info.name != identity.name
+        identity.name = auth.info.name
+        identity.save
+      end
+    end
+
     return user
   end
 
