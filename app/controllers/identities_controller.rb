@@ -6,10 +6,12 @@ class IdentitiesController < ApplicationController
     if @identity.user == current_user
       @identity.destroy
 
-      redirect_to root_path, notice: "#{@identity.provider.capitalize} login removed."
+      flash[:notice] = "#{@identity.provider.capitalize} login removed."
     else
-      redirect_to root_path, alert: "Only user can delete their own Identity."
+      flash[:alert] = "Only user can delete their own Identity."
     end
+
+    redirect_to root_path
   end
 
   private

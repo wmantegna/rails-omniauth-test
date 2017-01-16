@@ -4,8 +4,8 @@
   <h3>User Actions</h3>
   <% if user_signed_in? %>
 
-    <%= link_to 'Change Email', edit_email_users_path(current_user), class: 'btn btn-info' %>
-    <%= link_to 'Edit Password', edit_password_users_path(current_user), class: 'btn btn-info' %>
+    <%= link_to 'Change Email', user_edit_email_path(current_user), class: 'btn btn-info' %>
+    <%= link_to 'Edit Password', user_edit_password_path(current_user), class: 'btn btn-info' %>
 
     <% unless current_user.has_facebook_identity? %>
       <%= link_to 'Add Facebook', omniauth_authorize_path("user", "facebook"), class: 'btn btn-info' %>
@@ -19,12 +19,12 @@
         <p><b>Note:</b> You requested to change your email from <b><%= @user.email %></b> to <b><%= @user.unconfirmed_email %></b>. This change is 'pending' until you confirm it by clicking the link in the confirmation email we sent to your new email address.</p>
         <p>
           <b>If you did not receive the confirmation email</b>, please 
-          <%= link_to 'click here', send_user_confirmation_path(@user), :method => :POST, class: 'btn btn-primary btn-xs' %> 
+          <%= link_to 'click here', user_send_confirmation_path(@user), :method => :POST, class: 'btn btn-primary btn-xs' %> 
           to resend the confirmation instructions to your new email address.
           </p>
         <p>
           <b>If this was a mistake</b>, please 
-          <%= link_to 'click here', cancel_user_email_change_path(@user), :method => :POST, class: 'btn btn-danger btn-xs' %> 
+          <%= link_to 'click here', user_cancel_email_change_path(@user), :method => :POST, class: 'btn btn-danger btn-xs' %> 
           to cancel this change.
         </p>
       </div>

@@ -3,10 +3,10 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def edit_password
-    redirect_to_correct_user(edit_password_users_path, params[:id])
+    redirect_to_correct_user(user_edit_password_path, params[:user_id])
   end
   def update_password
-    if redirect_to_correct_user(edit_password_users_path, params[:id])
+    if redirect_to_correct_user(user_edit_password_path, params[:user_id])
       return
     end
 
@@ -35,10 +35,10 @@ class UsersController < ApplicationController
   end
 
   def edit_email
-    redirect_to_correct_user(edit_email_users_path, params[:id])
+    redirect_to_correct_user(user_edit_email_path, params[:user_id])
   end
   def update_email
-    if redirect_to_correct_user(edit_email_users_path, params[:id])
+    if redirect_to_correct_user(user_edit_email_path, params[:user_id])
       return
     end
 
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
   end
 
   def cancel_email_change
-    if redirect_to_correct_user(root_path, params[:id])
+    if redirect_to_correct_user(root_path, params[:user_id])
       return
     end
     
@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     redirect_to root_path, alert: "Request to change email address cancelled."
   end
   def send_confirmation
-    if redirect_to_correct_user(root_path, params[:id])
+    if redirect_to_correct_user(root_path, params[:user_id])
       return
     end
     
@@ -126,7 +126,7 @@ class UsersController < ApplicationController
   
   private
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find(params[:user_id])
     end
    
     # Stops users from being impersonated by making sure only the current user can edit their own record
