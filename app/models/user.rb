@@ -48,6 +48,12 @@ class User < ActiveRecord::Base
     # signed_in_resource ~ current_user
     user = signed_in_resource ? signed_in_resource : identity.user
 
+
+    # don't allow a user to connect an existing identity record to a different user
+    if identity.user.nil? == false && identity.user != user
+      raise "This account is already associated with another user"
+    end
+
     defaultEmail = "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com"
 
     # Create the user if needed
