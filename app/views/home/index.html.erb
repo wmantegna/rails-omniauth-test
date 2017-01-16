@@ -13,7 +13,7 @@
 
 
     <br>
-    <p><b>User: </b><%= current_user.to_json %></p>
+    <p><b>User: </b><%= @user.to_json %></p>
     <% if @user.pending_reconfirmation? %>
       <div class="alert alert-warning">
         <p><b>Note:</b> You requested to change your email from <b><%= @user.email %></b> to <b><%= @user.unconfirmed_email %></b>. This change is 'pending' until you confirm it by clicking the link in the confirmation email we sent to your new email address.</p>
@@ -31,8 +31,12 @@
     <% end %>
 
     <h4>Identities:</h4>
-    <% current_user.identities.each do |i| %>
-      <p><%= i.to_json %></p>
+    <% @user.identities.each do |ident| %>
+      <p>
+        <%= link_to "X", ident, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        <%= ident.to_json %>
+      </p>
+
     <% end %>
 
   <% else %>
