@@ -10,12 +10,26 @@ class UsersController < ApplicationController
       return
     end
 
-    if @user.update(user_params)
-      # Sign in the user by passing validation in case their password changed
-      sign_in(@user, :bypass => true)
-      redirect_to root_path, notice: 'Successfully updated password.'
-    else
-      render :edit_password, alert: 'Failed to update password.'
+    @errorMessage = ''
+    if user_params[:password] != user_params[:password_confirmation]
+      @errorMessage = "new password & new password confirmation must be the same"
+    end
+    
+
+    if @errorMessage.blank?
+      if @user.update(user_params)
+        # Sign in the user by passing validation in case their password changed
+        sign_in(@user, :bypass => true)
+        redirect_to root_path, notice: 'Successfully updated password.'
+      else
+        @errorMessage = 'Failed to update password.'
+      end
+    end
+
+    
+    unless @errorMessage.blank?
+      flash[:alert] = @errorMessage
+      render :edit_password
     end
   end
 
