@@ -10,12 +10,13 @@ class UsersController < ApplicationController
       return
     end
 
+    # validate input
     @errorMessage = ''
     if user_params[:password] != user_params[:password_confirmation]
       @errorMessage = "new password & new password confirmation must be the same"
     end
     
-
+    # update record
     if @errorMessage.blank?
       if @user.update(user_params)
         # Sign in the user by passing validation in case their password changed
@@ -26,7 +27,7 @@ class UsersController < ApplicationController
       end
     end
 
-    
+    # output error
     unless @errorMessage.blank?
       flash[:alert] = @errorMessage
       render :edit_password
